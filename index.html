@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="stopwatch">
+        <h1 id="displayTime">00:00:00</h1>
+        <div class="buttons">
+            <img src="images/stop.png" alt="" onclick="watchStop()">
+            <img src="images/start.png" alt="" onclick="watchStart()">
+            <img src="images/reset.png" alt="" onclick="watchReset()">
+        </div>
+    </div>
+
+    <script >
+        let[seconds, minutes, hours]= [0,0,0];
+        let displayTime = document.getElementById("displayTime");
+        let timer = null;
+        
+        function stopwatch(){
+            seconds++;
+            if(seconds == 60){                 //second value is increasing by every one seconds
+                seconds = 0;                   //when seconds will be come to 60 seconds then it will become zero and it will increase the minute value by 1
+                minutes++;                    //when minute will become 60 it will change the hours value by 1
+                if(minutes == 60){
+                   minutes = 0;
+                   hours++;
+                }           
+           }
+             //to change number of hours,minutes,seconds in form of 00,01-----09 instead of 1,2----9
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = hours < 10 ? "0" + minutes : minutes;
+            let s = hours < 10 ? "0" + seconds : seconds;
+            //update html element every second
+            displayTime .innerHTML = h + ":" + m + ":" + s;
+        }
+        //for execute this function every seconds (means every seconds it will increase the value by 1)we have to use javascript time interval
+         
+
+    function watchStart(){
+        if (timer!=null) {
+            clearInterval(timer);
+            
+        }
+        //if the timer is already running then it should clear the interval and it will start executing again
+       timer = setInterval(stopwatch,1000);
+    }
+
+    //for stop button
+    function watchStop(){
+        clearInterval(timer);
+
+    }
+    //for watch reset
+    function watchReset(){
+        clearInterval(timer);
+        [seconds, minutes, hours]= [0,0,0];
+        displayTime.innerHTML = "00:00:00";
+
+    }
+   </script>
+</body>
+</html>
